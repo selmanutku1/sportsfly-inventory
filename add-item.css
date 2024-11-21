@@ -5,6 +5,9 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     min-height: calc(100vh - 200px);
+    max-width: 800px;
+    margin: 80px auto 20px;
+    padding: 20px;
 }
 
 /* Sol taraf - Kategoriler */
@@ -51,6 +54,10 @@
     flex: 1;
     padding: 30px;
     overflow-y: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .form-section {
@@ -76,7 +83,7 @@
 .form-group label {
     display: block;
     margin-bottom: 8px;
-    color: #555;
+    color: #333;
     font-weight: 500;
 }
 
@@ -84,11 +91,15 @@
 .form-group select,
 .form-group textarea {
     width: 100%;
-    padding: 10px 12px;
+    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
-    transition: border-color 0.3s ease;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
 }
 
 .form-group input:focus,
@@ -99,19 +110,12 @@
     box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
 }
 
-.form-group textarea {
-    min-height: 120px;
-    resize: vertical;
-}
-
 /* Form actions */
 .form-actions {
     margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
     display: flex;
+    gap: 10px;
     justify-content: flex-end;
-    gap: 15px;
 }
 
 /* Header düzenlemesi */
@@ -175,5 +179,25 @@ header {
 
     .form-actions button {
         width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .add-item-container {
+        margin: 60px 10px 20px;
+        padding: 10px;
+    }
+
+    .form-container {
+        padding: 20px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions button {
+        width: 100%;
+        justify-content: center;
     }
 }
