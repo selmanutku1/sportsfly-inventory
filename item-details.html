@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malzeme Detayları - SportsFly</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <i class="material-icons">sports</i>
+                SportsFly
+            </a>
+            <button class="menu-toggle">
+                <i class="material-icons">menu</i>
+            </button>
+            <div class="navbar-menu">
+                <a href="index.html" class="nav-link">
+                    <i class="material-icons">inventory_2</i>
+                    Envanter Listesi
+                </a>
+                <a href="add-item.html" class="nav-link">
+                    <i class="material-icons">add_circle</i>
+                    Yeni Malzeme
+                </a>
+                <a href="item-details.html" class="nav-link active">
+                    <i class="material-icons">info</i>
+                    Malzeme Detayları
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Ana İçerik -->
+    <div class="main-content">
+        <div class="details-header">
+            <h1><span id="itemName">Malzeme Adı</span></h1>
+            <div class="item-code">Malzeme Kodu: <span id="itemCode"></span></div>
+        </div>
+
+        <div class="details-grid">
+            <!-- Temel Bilgiler -->
+            <div class="details-card">
+                <h2><i class="material-icons">info</i> Temel Bilgiler</h2>
+                <div class="details-content">
+                    <div class="detail-row">
+                        <label>Kategori:</label>
+                        <span id="category"></span>
+                    </div>
+                    <div class="detail-row">
+                        <label>Mevcut Miktar:</label>
+                        <span id="currentQuantity"></span>
+                    </div>
+                    <div class="detail-row">
+                        <label>Asgari Stok:</label>
+                        <span id="minStock"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Şube Bilgileri -->
+            <div class="details-card">
+                <h2><i class="material-icons">business</i> Şube Bilgileri</h2>
+                <div class="details-content">
+                    <div class="detail-row">
+                        <label>Depolanan Şube:</label>
+                        <span id="branch"></span>
+                    </div>
+                    <div class="detail-row">
+                        <label>Şube Yöneticisi:</label>
+                        <span id="manager"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tedarik Bilgileri -->
+            <div class="details-card">
+                <h2><i class="material-icons">local_shipping</i> Tedarik Bilgileri</h2>
+                <div class="details-content">
+                    <div class="detail-row">
+                        <label>Tedarikçi:</label>
+                        <span id="supplier"></span>
+                    </div>
+                    <div class="detail-row">
+                        <label>Alım Tarihi:</label>
+                        <span id="purchaseDate"></span>
+                    </div>
+                    <div class="detail-row">
+                        <label>Garanti Süresi:</label>
+                        <span id="warranty"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kullanım Bilgileri -->
+            <div class="details-card">
+                <h2><i class="material-icons">update</i> Kullanım Bilgileri</h2>
+                <div class="details-content">
+                    <div class="detail-row">
+                        <label>Durum:</label>
+                        <span id="condition"></span>
+                    </div>
+                    <div class="detail-row">
+                        <label>Kullanım Sıklığı:</label>
+                        <span id="usageFrequency"></span>
+                    </div>
+                    <div class="detail-row">
+                        <label>Son Kullanım:</label>
+                        <span id="lastUsed"></span>
+                    </div>
+                    <div class="detail-row">
+                        <label>Son Bakım:</label>
+                        <span id="lastMaintenance"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notlar -->
+            <div class="details-card full-width">
+                <h2><i class="material-icons">notes</i> Notlar</h2>
+                <div class="details-content">
+                    <div class="detail-row">
+                        <textarea id="notes" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aksiyon Butonları -->
+        <div class="details-actions">
+            <button class="btn btn-secondary" onclick="history.back()">
+                <i class="material-icons">arrow_back</i>
+                Geri Dön
+            </button>
+            <button class="btn btn-primary" onclick="editItem()">
+                <i class="material-icons">edit</i>
+                Düzenle
+            </button>
+        </div>
+    </div>
+
+    <script src="item-details.js"></script>
+</body>
+</html>
