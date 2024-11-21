@@ -1,5 +1,111 @@
+// Örnek branş ve kategori verileri
+const branches = ['Futbol', 'Basketbol', 'Voleybol', 'Tenis', 'Yüzme'];
+const categories = ['Top', 'Forma', 'Ayakkabı', 'Ekipman', 'Aksesuar'];
+const conditions = ['Yeni', 'Az Kullanılmış', 'Bakım Gerekli', 'Hasarlı'];
+
+// Form elementlerini doldur
+function initializeForm() {
+    const branchSelect = document.getElementById('branch');
+    const categorySelect = document.getElementById('category');
+    const conditionSelect = document.getElementById('condition');
+
+    // Branşları ekle
+    branches.forEach(branch => {
+        const option = document.createElement('option');
+        option.value = branch;
+        option.textContent = branch;
+        branchSelect.appendChild(option);
+    });
+
+    // Kategorileri ekle
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        categorySelect.appendChild(option);
+    });
+
+    // Durumları ekle
+    conditions.forEach(condition => {
+        const option = document.createElement('option');
+        option.value = condition;
+        option.textContent = condition;
+        conditionSelect.appendChild(option);
+    });
+}
+
+// Form verilerini localStorage'a kaydetme
+function saveToLocalStorage(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+}
+
+// localStorage'dan veri getirme
+function getFromLocalStorage(key) {
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : null;
+}
+
+// Benzersiz ID oluşturma
+function generateUniqueId() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+}
+
+// Form verilerini hazırlama
+function prepareFormData() {
+    return {
+        id: generateUniqueId(),
+        name: document.getElementById('name').value,
+        branch: document.getElementById('branch').value,
+        category: document.getElementById('category').value,
+        condition: document.getElementById('condition').value,
+        quantity: parseInt(document.getElementById('quantity').value),
+        notes: document.getElementById('notes').value,
+        createdAt: new Date().toISOString()
+    };
+}
+
+// Form gönderildiğinde
+document.getElementById('add-item-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Form verilerini al
+    const itemData = prepareFormData();
+
+    // Mevcut envanter verilerini al
+    let inventory = getFromLocalStorage('inventory') || [];
+
+    // Yeni ürünü ekle
+    inventory.push(itemData);
+
+    // Güncellenmiş envanteri kaydet
+    saveToLocalStorage('inventory', inventory);
+
+    // Başarı mesajı göster
+    alert('Malzeme başarıyla eklendi!');
+
+    // Formu sıfırla
+    this.reset();
+
+    // Ana sayfaya yönlendir
+    window.location.href = 'index.html';
+});
+
+// Form seçeneklerini doldurma
+function populateSelect(selectId, options) {
+    const select = document.getElementById(selectId);
+    options.forEach(option => {
+        const optionElement = document.createElement('option');
+        optionElement.value = option;
+        optionElement.textContent = option;
+        select.appendChild(optionElement);
+    });
+}
+
+// Sayfa yüklendiğinde form seçeneklerini doldur
 document.addEventListener('DOMContentLoaded', function() {
-    setupCategoryNavigation();
+    populateSelect('branch', branches);
+    populateSelect('category', categories);
+    populateSelect('condition', conditions);
 });
 
 // Kategori navigasyonu
@@ -25,57 +131,6 @@ function setupCategoryNavigation() {
     });
 }
 
-// Form gönderme işlemi
-function handleAddItem(event) {
-    event.preventDefault();
-
-    const newItem = {
-        code: document.getElementById('itemCode').value,
-        name: document.getElementById('itemName').value,
-        category: document.getElementById('category').value,
-        currentQuantity: parseInt(document.getElementById('currentQuantity').value),
-        minStock: parseInt(document.getElementById('minStock').value),
-        branch: document.getElementById('branch').value,
-        manager: document.getElementById('manager').value,
-        supplier: document.getElementById('supplier').value,
-        purchaseDate: document.getElementById('purchaseDate').value,
-        warranty: document.getElementById('warranty').value,
-        condition: document.getElementById('condition').value,
-        usageFrequency: document.getElementById('usageFrequency').value,
-        lastUsed: new Date().toISOString().split('T')[0],
-        lastMaintenance: new Date().toISOString().split('T')[0],
-        notes: document.getElementById('notes').value
-    };
-
-    // Malzeme kodunun benzersiz olduğunu kontrol et
-    if (inventoryItems.some(item => item.code === newItem.code)) {
-        alert('Bu malzeme kodu zaten kullanılıyor. Lütfen başka bir kod girin.');
-        return;
-    }
-
-    // Yeni malzemeyi listeye ekle
-    inventoryItems.push(newItem);
-    
-    // Başarı mesajı göster
-    alert('Yeni malzeme başarıyla eklendi!');
-    
-    // Ana sayfaya yönlendir
-    window.location.href = 'index.html';
-}
-
-// Form doğrulama
-function validateForm() {
-    const requiredFields = document.querySelectorAll('[required]');
-    let isValid = true;
-
-    requiredFields.forEach(field => {
-        if (!field.value) {
-            isValid = false;
-            field.classList.add('error');
-        } else {
-            field.classList.remove('error');
-        }
-    });
-
-    return isValid;
-}
+document.addEventListener('DOMContentLoaded', function() {
+    setupCategoryNavigation();
+});
