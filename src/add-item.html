@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malzeme Ekle</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="add-item.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-menu">
+                <a href="index.html" class="nav-link">
+                    <i class="material-icons">inventory_2</i>
+                    Envanter Listele
+                </a>
+                <a href="add-item.html" class="nav-link active">
+                    <i class="material-icons">add_circle</i>
+                    Malzeme Ekle
+                </a>
+            </div>
+            <button class="menu-toggle">
+                <i class="material-icons">menu</i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Ana İçerik -->
+    <div class="main-content">
+        <div class="add-item-container">
+            <div class="categories">
+                <ul>
+                    <li data-section="basicInfo" class="active">
+                        <i class="material-icons">info</i>
+                        Temel Bilgiler
+                    </li>
+                    <li data-section="stockInfo">
+                        <i class="material-icons">inventory</i>
+                        Stok Bilgileri
+                    </li>
+                    <li data-section="branchInfo">
+                        <i class="material-icons">business</i>
+                        Şube Bilgileri
+                    </li>
+                    <li data-section="supplierInfo">
+                        <i class="material-icons">local_shipping</i>
+                        Tedarik Bilgileri
+                    </li>
+                    <li data-section="statusInfo">
+                        <i class="material-icons">update</i>
+                        Durum Bilgileri
+                    </li>
+                    <li data-section="notes">
+                        <i class="material-icons">notes</i>
+                        Notlar
+                    </li>
+                </ul>
+            </div>
+
+            <div class="form-container">
+                <form id="addItemForm" onsubmit="handleAddItem(event)">
+                    <!-- Temel Bilgiler -->
+                    <div id="basicInfo" class="form-section active">
+                        <h2>Temel Bilgiler</h2>
+                        <div class="form-group">
+                            <label for="itemName">Malzeme Adı:</label>
+                            <input type="text" id="itemName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemCode">Malzeme Kodu:</label>
+                            <input type="text" id="itemCode" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Kategori:</label>
+                            <select id="category" required>
+                                <option value="">Seçiniz</option>
+                                <option value="Basketbol">Basketbol</option>
+                                <option value="Futbol">Futbol</option>
+                                <option value="Voleybol">Voleybol</option>
+                                <option value="Yüzme">Yüzme</option>
+                                <option value="Tenis">Tenis</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Stok Bilgileri -->
+                    <div id="stockInfo" class="form-section">
+                        <h2>Stok Bilgileri</h2>
+                        <div class="form-group">
+                            <label for="currentQuantity">Mevcut Miktar:</label>
+                            <input type="number" id="currentQuantity" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="minStock">Asgari Stok:</label>
+                            <input type="number" id="minStock" min="0" required>
+                        </div>
+                    </div>
+
+                    <!-- Şube Bilgileri -->
+                    <div id="branchInfo" class="form-section">
+                        <h2>Şube Bilgileri</h2>
+                        <div class="form-group">
+                            <label for="branch">Depolanan Şube:</label>
+                            <input type="text" id="branch" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="manager">Şube Yöneticisi:</label>
+                            <input type="text" id="manager" required>
+                        </div>
+                    </div>
+
+                    <!-- Tedarik Bilgileri -->
+                    <div id="supplierInfo" class="form-section">
+                        <h2>Tedarik Bilgileri</h2>
+                        <div class="form-group">
+                            <label for="supplier">Tedarikçi:</label>
+                            <input type="text" id="supplier" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="purchaseDate">Alım Tarihi:</label>
+                            <input type="date" id="purchaseDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="warranty">Garanti Süresi:</label>
+                            <input type="text" id="warranty" required>
+                        </div>
+                    </div>
+
+                    <!-- Durum Bilgileri -->
+                    <div id="statusInfo" class="form-section">
+                        <h2>Durum Bilgileri</h2>
+                        <div class="form-group">
+                            <label for="condition">Durum:</label>
+                            <select id="condition" required>
+                                <option value="">Seçiniz</option>
+                                <option value="Yeni">Yeni</option>
+                                <option value="Az Kullanılmış">Az Kullanılmış</option>
+                                <option value="Bakım Gereken">Bakım Gereken</option>
+                                <option value="Hasarlı">Hasarlı</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="usageFrequency">Kullanım Sıklığı:</label>
+                            <select id="usageFrequency" required>
+                                <option value="">Seçiniz</option>
+                                <option value="Yoğun">Yoğun</option>
+                                <option value="Orta">Orta</option>
+                                <option value="Az">Az</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Notlar -->
+                    <div id="notes" class="form-section">
+                        <h2>Notlar</h2>
+                        <div class="form-group">
+                            <label for="notes">Yönetici Notları:</label>
+                            <textarea id="notes"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Form Aksiyonları -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="history.back()">
+                            <i class="material-icons">arrow_back</i>
+                            İptal
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="material-icons">save</i>
+                            Kaydet
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="add-item.js"></script>
+</body>
+</html>
