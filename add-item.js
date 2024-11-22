@@ -4,13 +4,26 @@ const CATEGORIES = ['Top', 'Forma', 'Ayakkabı', 'Ekipman', 'Aksesuar'];
 const CONDITIONS = ['Yeni', 'Az Kullanılmış', 'Bakım Gerekli', 'Hasarlı'];
 
 // Form elementlerini seç
-const form = document.getElementById('addItemForm');
-const nameInput = document.getElementById('name');
-const branchSelect = document.getElementById('branch');
-const categorySelect = document.getElementById('category');
-const conditionSelect = document.getElementById('condition');
-const quantityInput = document.getElementById('quantity');
-const notesInput = document.getElementById('notes');
+const form = document.getElementById('itemForm');
+const nameInput = document.getElementById('itemName');
+const branchSelect = document.getElementById('itemBranch');
+const categorySelect = document.getElementById('itemCategory');
+const conditionSelect = document.getElementById('itemCondition');
+const quantityInput = document.getElementById('itemQuantity');
+const notesInput = document.getElementById('itemNotes');
+
+// Select elementlerini doldur
+function populateSelect(selectElement, options) {
+    if (!selectElement) return;
+    
+    selectElement.innerHTML = '<option value="">Seçiniz</option>';
+    options.forEach(option => {
+        const optionElement = document.createElement('option');
+        optionElement.value = option;
+        optionElement.textContent = option;
+        selectElement.appendChild(optionElement);
+    });
+}
 
 // Başarı mesajını göster
 function showSuccessMessage(message) {
@@ -35,17 +48,6 @@ function showSuccessMessage(message) {
     setTimeout(() => {
         messageDiv.remove();
     }, 3000);
-}
-
-// Select elementlerini doldur
-function populateSelect(selectElement, options) {
-    selectElement.innerHTML = '<option value="">Seçiniz</option>';
-    options.forEach(option => {
-        const optionElement = document.createElement('option');
-        optionElement.value = option;
-        optionElement.textContent = option;
-        selectElement.appendChild(optionElement);
-    });
 }
 
 // Benzersiz ID oluştur
@@ -137,6 +139,11 @@ function handleSubmit(event) {
     }
 }
 
+// Form submit olayını dinle
+if (form) {
+    form.addEventListener('submit', handleSubmit);
+}
+
 // Sayfa yüklendiğinde
 document.addEventListener('DOMContentLoaded', function() {
     // Form elementinin varlığını kontrol et
@@ -146,8 +153,9 @@ document.addEventListener('DOMContentLoaded', function() {
         populateSelect(categorySelect, CATEGORIES);
         populateSelect(conditionSelect, CONDITIONS);
 
-        // Quantity input için minimum değer ayarla
-        quantityInput.min = 1;
-        quantityInput.value = 1;
+        // Quantity input için varsayılan değer
+        if (quantityInput) {
+            quantityInput.value = 1;
+        }
     }
 });
