@@ -97,43 +97,44 @@ function validateForm() {
     return true;
 }
 
-// Form submit olayını dinle
-if (form) {
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        if (!validateForm()) {
-            return;
-        }
+// Form gönderme işleyicisi
+function handleSubmit(event) {
+    event.preventDefault();
+    
+    if (!validateForm()) {
+        return false;
+    }
 
-        try {
-            // Form verilerini al
-            const itemData = getFormData();
+    try {
+        // Form verilerini al
+        const itemData = getFormData();
 
-            // Mevcut envanter verilerini al
-            let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+        // Mevcut envanter verilerini al
+        let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
 
-            // Yeni ürünü ekle
-            inventory.push(itemData);
+        // Yeni ürünü ekle
+        inventory.push(itemData);
 
-            // Güncellenmiş envanteri kaydet
-            localStorage.setItem('inventory', JSON.stringify(inventory));
+        // Güncellenmiş envanteri kaydet
+        localStorage.setItem('inventory', JSON.stringify(inventory));
 
-            // Başarı mesajı göster
-            showSuccessMessage('Malzeme başarıyla eklendi!');
+        // Başarı mesajı göster
+        showSuccessMessage('Malzeme başarıyla eklendi!');
 
-            // Formu sıfırla
-            form.reset();
+        // Formu sıfırla
+        form.reset();
 
-            // 1 saniye sonra ana sayfaya yönlendir
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1000);
-        } catch (error) {
-            console.error('Hata:', error);
-            alert('Malzeme eklenirken bir hata oluştu. Lütfen tekrar deneyin.');
-        }
-    });
+        // 1 saniye sonra ana sayfaya yönlendir
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1000);
+
+        return false;
+    } catch (error) {
+        console.error('Hata:', error);
+        alert('Malzeme eklenirken bir hata oluştu. Lütfen tekrar deneyin.');
+        return false;
+    }
 }
 
 // Sayfa yüklendiğinde
