@@ -11,6 +11,7 @@ const categorySelect = document.getElementById('itemCategory');
 const conditionSelect = document.getElementById('itemCondition');
 const quantityInput = document.getElementById('itemQuantity');
 const notesInput = document.getElementById('itemNotes');
+const submitButton = document.getElementById('submitButton');
 
 // Select elementlerini doldur
 function populateSelect(selectElement, options) {
@@ -101,9 +102,19 @@ function validateForm() {
 
 // Form gönderme işleyicisi
 function handleSubmit(event) {
-    event.preventDefault();
+    if (event) {
+        event.preventDefault();
+    }
+    
+    // Submit butonunu devre dışı bırak
+    if (submitButton) {
+        submitButton.disabled = true;
+    }
     
     if (!validateForm()) {
+        if (submitButton) {
+            submitButton.disabled = false;
+        }
         return false;
     }
 
@@ -126,22 +137,30 @@ function handleSubmit(event) {
         // Formu sıfırla
         form.reset();
 
+        // Select elementlerini tekrar doldur
+        populateSelect(branchSelect, BRANCHES);
+        populateSelect(categorySelect, CATEGORIES);
+        populateSelect(conditionSelect, CONDITIONS);
+
+        // Submit butonunu aktif et
+        if (submitButton) {
+            submitButton.disabled = false;
+        }
+
         // 1 saniye sonra ana sayfaya yönlendir
         setTimeout(() => {
             window.location.href = 'index.html';
         }, 1000);
 
-        return false;
     } catch (error) {
         console.error('Hata:', error);
         alert('Malzeme eklenirken bir hata oluştu. Lütfen tekrar deneyin.');
-        return false;
+        
+        // Submit butonunu aktif et
+        if (submitButton) {
+            submitButton.disabled = false;
+        }
     }
-}
-
-// Form submit olayını dinle
-if (form) {
-    form.addEventListener('submit', handleSubmit);
 }
 
 // Sayfa yüklendiğinde
@@ -157,5 +176,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (quantityInput) {
             quantityInput.value = 1;
         }
+
+        // Form submit olayını dinle
+        form.addEventListener('submit', handleSubmit);
     }
 });

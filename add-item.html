@@ -35,7 +35,7 @@
         <div class="container">
             <h1>Yeni Malzeme Ekle</h1>
             
-            <form id="itemForm" onsubmit="return handleSubmit(event)">
+            <form id="itemForm">
                 <div class="form-group">
                     <label for="itemName">Malzeme Adı</label>
                     <input type="text" id="itemName" name="itemName" required>
@@ -73,7 +73,7 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" id="submitButton" class="btn btn-primary">
                         <i class="material-icons">save</i>
                         Kaydet
                     </button>
