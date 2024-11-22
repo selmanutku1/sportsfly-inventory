@@ -35,7 +35,7 @@
         <div class="container">
             <h1>Yeni Malzeme Ekle</h1>
             
-            <form id="add-item-form" class="form">
+            <form id="addItemForm" class="form">
                 <div class="form-group">
                     <label for="name">Malzeme Adı</label>
                     <input type="text" id="name" name="name" required>
@@ -73,8 +73,14 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Malzeme Ekle</button>
-                    <a href="index.html" class="btn btn-secondary">İptal</a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="material-icons">save</i>
+                        Malzeme Ekle
+                    </button>
+                    <a href="index.html" class="btn btn-secondary">
+                        <i class="material-icons">cancel</i>
+                        İptal
+                    </a>
                 </div>
             </form>
         </div>

@@ -4,7 +4,7 @@ const CATEGORIES = ['Top', 'Forma', 'Ayakkabı', 'Ekipman', 'Aksesuar'];
 const CONDITIONS = ['Yeni', 'Az Kullanılmış', 'Bakım Gerekli', 'Hasarlı'];
 
 // Form elementlerini seç
-const form = document.getElementById('add-item-form');
+const form = document.getElementById('addItemForm');
 const nameInput = document.getElementById('name');
 const branchSelect = document.getElementById('branch');
 const categorySelect = document.getElementById('category');
@@ -72,48 +72,54 @@ function validateForm() {
     return true;
 }
 
-// Form gönderildiğinde
-form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    if (!validateForm()) {
-        return;
-    }
+// Form submit olayını dinle
+if (form) {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (!validateForm()) {
+            return;
+        }
 
-    try {
-        // Form verilerini al
-        const itemData = getFormData();
+        try {
+            // Form verilerini al
+            const itemData = getFormData();
 
-        // Mevcut envanter verilerini al
-        let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+            // Mevcut envanter verilerini al
+            let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
 
-        // Yeni ürünü ekle
-        inventory.push(itemData);
+            // Yeni ürünü ekle
+            inventory.push(itemData);
 
-        // Güncellenmiş envanteri kaydet
-        localStorage.setItem('inventory', JSON.stringify(inventory));
+            // Güncellenmiş envanteri kaydet
+            localStorage.setItem('inventory', JSON.stringify(inventory));
 
-        // Başarı mesajı göster
-        alert('Malzeme başarıyla eklendi!');
+            // Başarı mesajı göster
+            alert('Malzeme başarıyla eklendi!');
 
-        // Formu sıfırla
-        form.reset();
+            // Formu sıfırla
+            form.reset();
 
-        // Ana sayfaya yönlendir
-        window.location.href = 'index.html';
-    } catch (error) {
-        console.error('Hata:', error);
-        alert('Malzeme eklenirken bir hata oluştu. Lütfen tekrar deneyin.');
-    }
-});
+            // Ana sayfaya yönlendir
+            window.location.href = 'index.html';
+        } catch (error) {
+            console.error('Hata:', error);
+            alert('Malzeme eklenirken bir hata oluştu. Lütfen tekrar deneyin.');
+        }
+    });
+}
 
 // Sayfa yüklendiğinde
 document.addEventListener('DOMContentLoaded', function() {
-    // Select elementlerini doldur
-    populateSelect(branchSelect, BRANCHES);
-    populateSelect(categorySelect, CATEGORIES);
-    populateSelect(conditionSelect, CONDITIONS);
+    // Form elementinin varlığını kontrol et
+    if (form) {
+        // Select elementlerini doldur
+        populateSelect(branchSelect, BRANCHES);
+        populateSelect(categorySelect, CATEGORIES);
+        populateSelect(conditionSelect, CONDITIONS);
 
-    // Quantity input için minimum değer ayarla
-    quantityInput.min = 1;
+        // Quantity input için minimum değer ayarla
+        quantityInput.min = 1;
+        quantityInput.value = 1;
+    }
 });
