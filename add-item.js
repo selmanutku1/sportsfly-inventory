@@ -12,6 +12,31 @@ const conditionSelect = document.getElementById('condition');
 const quantityInput = document.getElementById('quantity');
 const notesInput = document.getElementById('notes');
 
+// Başarı mesajını göster
+function showSuccessMessage(message) {
+    // Varsa eski mesajı kaldır
+    const oldMessage = document.querySelector('.success-message');
+    if (oldMessage) {
+        oldMessage.remove();
+    }
+
+    // Yeni mesaj elementi oluştur
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'success-message';
+    messageDiv.innerHTML = `
+        <i class="material-icons">check_circle</i>
+        <span>${message}</span>
+    `;
+
+    // Mesajı sayfaya ekle
+    document.body.appendChild(messageDiv);
+
+    // 3 saniye sonra mesajı kaldır
+    setTimeout(() => {
+        messageDiv.remove();
+    }, 3000);
+}
+
 // Select elementlerini doldur
 function populateSelect(selectElement, options) {
     selectElement.innerHTML = '<option value="">Seçiniz</option>';
@@ -95,13 +120,15 @@ if (form) {
             localStorage.setItem('inventory', JSON.stringify(inventory));
 
             // Başarı mesajı göster
-            alert('Malzeme başarıyla eklendi!');
+            showSuccessMessage('Malzeme başarıyla eklendi!');
 
             // Formu sıfırla
             form.reset();
 
-            // Ana sayfaya yönlendir
-            window.location.href = 'index.html';
+            // 1 saniye sonra ana sayfaya yönlendir
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
         } catch (error) {
             console.error('Hata:', error);
             alert('Malzeme eklenirken bir hata oluştu. Lütfen tekrar deneyin.');
