@@ -1,136 +1,119 @@
-// Örnek branş ve kategori verileri
-const branches = ['Futbol', 'Basketbol', 'Voleybol', 'Tenis', 'Yüzme'];
-const categories = ['Top', 'Forma', 'Ayakkabı', 'Ekipman', 'Aksesuar'];
-const conditions = ['Yeni', 'Az Kullanılmış', 'Bakım Gerekli', 'Hasarlı'];
+// Sabit veriler
+const BRANCHES = ['Futbol', 'Basketbol', 'Voleybol', 'Tenis', 'Yüzme'];
+const CATEGORIES = ['Top', 'Forma', 'Ayakkabı', 'Ekipman', 'Aksesuar'];
+const CONDITIONS = ['Yeni', 'Az Kullanılmış', 'Bakım Gerekli', 'Hasarlı'];
 
-// Form elementlerini doldur
-function initializeForm() {
-    const branchSelect = document.getElementById('branch');
-    const categorySelect = document.getElementById('category');
-    const conditionSelect = document.getElementById('condition');
+// Form elementlerini seç
+const form = document.getElementById('add-item-form');
+const nameInput = document.getElementById('name');
+const branchSelect = document.getElementById('branch');
+const categorySelect = document.getElementById('category');
+const conditionSelect = document.getElementById('condition');
+const quantityInput = document.getElementById('quantity');
+const notesInput = document.getElementById('notes');
 
-    // Branşları ekle
-    branches.forEach(branch => {
-        const option = document.createElement('option');
-        option.value = branch;
-        option.textContent = branch;
-        branchSelect.appendChild(option);
-    });
-
-    // Kategorileri ekle
-    categories.forEach(category => {
-        const option = document.createElement('option');
-        option.value = category;
-        option.textContent = category;
-        categorySelect.appendChild(option);
-    });
-
-    // Durumları ekle
-    conditions.forEach(condition => {
-        const option = document.createElement('option');
-        option.value = condition;
-        option.textContent = condition;
-        conditionSelect.appendChild(option);
-    });
-}
-
-// Form verilerini localStorage'a kaydetme
-function saveToLocalStorage(key, data) {
-    localStorage.setItem(key, JSON.stringify(data));
-}
-
-// localStorage'dan veri getirme
-function getFromLocalStorage(key) {
-    const data = localStorage.getItem(key);
-    return data ? JSON.parse(data) : null;
-}
-
-// Benzersiz ID oluşturma
-function generateUniqueId() {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2);
-}
-
-// Form verilerini hazırlama
-function prepareFormData() {
-    return {
-        id: generateUniqueId(),
-        name: document.getElementById('name').value,
-        branch: document.getElementById('branch').value,
-        category: document.getElementById('category').value,
-        condition: document.getElementById('condition').value,
-        quantity: parseInt(document.getElementById('quantity').value),
-        notes: document.getElementById('notes').value,
-        createdAt: new Date().toISOString()
-    };
-}
-
-// Form gönderildiğinde
-document.getElementById('add-item-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    // Form verilerini al
-    const itemData = prepareFormData();
-
-    // Mevcut envanter verilerini al
-    let inventory = getFromLocalStorage('inventory') || [];
-
-    // Yeni ürünü ekle
-    inventory.push(itemData);
-
-    // Güncellenmiş envanteri kaydet
-    saveToLocalStorage('inventory', inventory);
-
-    // Başarı mesajı göster
-    alert('Malzeme başarıyla eklendi!');
-
-    // Formu sıfırla
-    this.reset();
-
-    // Ana sayfaya yönlendir
-    window.location.href = 'index.html';
-});
-
-// Form seçeneklerini doldurma
-function populateSelect(selectId, options) {
-    const select = document.getElementById(selectId);
+// Select elementlerini doldur
+function populateSelect(selectElement, options) {
+    selectElement.innerHTML = '<option value="">Seçiniz</option>';
     options.forEach(option => {
         const optionElement = document.createElement('option');
         optionElement.value = option;
         optionElement.textContent = option;
-        select.appendChild(optionElement);
+        selectElement.appendChild(optionElement);
     });
 }
 
-// Sayfa yüklendiğinde form seçeneklerini doldur
-document.addEventListener('DOMContentLoaded', function() {
-    populateSelect('branch', branches);
-    populateSelect('category', categories);
-    populateSelect('condition', conditions);
+// Benzersiz ID oluştur
+function generateUniqueId() {
+    return Date.now().toString(36) + Math.random().toString(36).substring(2);
+}
+
+// Form verilerini hazırla
+function getFormData() {
+    return {
+        id: generateUniqueId(),
+        name: nameInput.value.trim(),
+        branch: branchSelect.value,
+        category: categorySelect.value,
+        condition: conditionSelect.value,
+        quantity: parseInt(quantityInput.value),
+        notes: notesInput.value.trim(),
+        createdAt: new Date().toISOString()
+    };
+}
+
+// Formu doğrula
+function validateForm() {
+    if (!nameInput.value.trim()) {
+        alert('Lütfen malzeme adını girin.');
+        nameInput.focus();
+        return false;
+    }
+    if (!branchSelect.value) {
+        alert('Lütfen bir branş seçin.');
+        branchSelect.focus();
+        return false;
+    }
+    if (!categorySelect.value) {
+        alert('Lütfen bir kategori seçin.');
+        categorySelect.focus();
+        return false;
+    }
+    if (!conditionSelect.value) {
+        alert('Lütfen malzemenin durumunu seçin.');
+        conditionSelect.focus();
+        return false;
+    }
+    if (!quantityInput.value || parseInt(quantityInput.value) < 1) {
+        alert('Lütfen geçerli bir adet girin.');
+        quantityInput.focus();
+        return false;
+    }
+    return true;
+}
+
+// Form gönderildiğinde
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+        return;
+    }
+
+    try {
+        // Form verilerini al
+        const itemData = getFormData();
+
+        // Mevcut envanter verilerini al
+        let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+
+        // Yeni ürünü ekle
+        inventory.push(itemData);
+
+        // Güncellenmiş envanteri kaydet
+        localStorage.setItem('inventory', JSON.stringify(inventory));
+
+        // Başarı mesajı göster
+        alert('Malzeme başarıyla eklendi!');
+
+        // Formu sıfırla
+        form.reset();
+
+        // Ana sayfaya yönlendir
+        window.location.href = 'index.html';
+    } catch (error) {
+        console.error('Hata:', error);
+        alert('Malzeme eklenirken bir hata oluştu. Lütfen tekrar deneyin.');
+    }
 });
 
-// Kategori navigasyonu
-function setupCategoryNavigation() {
-    const categories = document.querySelectorAll('.categories li');
-    const sections = document.querySelectorAll('.form-section');
-
-    categories.forEach(category => {
-        category.addEventListener('click', () => {
-            // Aktif kategoriyi güncelle
-            categories.forEach(c => c.classList.remove('active'));
-            category.classList.add('active');
-
-            // İlgili form bölümünü göster
-            const sectionId = category.dataset.section;
-            sections.forEach(section => {
-                section.classList.remove('active');
-                if (section.id === sectionId) {
-                    section.classList.add('active');
-                }
-            });
-        });
-    });
-}
-
+// Sayfa yüklendiğinde
 document.addEventListener('DOMContentLoaded', function() {
-    setupCategoryNavigation();
+    // Select elementlerini doldur
+    populateSelect(branchSelect, BRANCHES);
+    populateSelect(categorySelect, CATEGORIES);
+    populateSelect(conditionSelect, CONDITIONS);
+
+    // Quantity input için minimum değer ayarla
+    quantityInput.min = 1;
 });
